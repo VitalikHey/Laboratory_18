@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include "tasks.h"
 
-
 void removeExtraSpaces(char *s) {
     int i, j;
     int space = 0;

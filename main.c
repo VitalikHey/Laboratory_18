@@ -1,39 +1,75 @@
 #include <stdio.h>
+#include <ctype.h>
+#include <stdbool.h>
 
-void removeExtraSpaces(char *s) {
-    int i, j;
-    int space = 0;
-    for (i = 0, j = 0; s[i]; i++) {
-        if (s[i] != ' ') {
-            s[j++] = s[i];
-            space = 0;
-        } else {
-            if (!space && j > 0) {
-                s[j++] = ' ';
-                space = 1;
-            }
+void rearrangeWord(char *word) {
+    int len = 0;
+    int numCount = 0, letterCount = 0;
+    bool isNum = false;
+
+    // Подсчитываем количество цифр и букв в слове
+    while (word[len]) {
+        if (isdigit(word[len])) {
+            numCount++;
+        } else if (isalpha(word[len])) {
+            letterCount++;
+        }
+        len++;
+    }
+
+    char tmp[len];
+    int i = 0, j = 0;
+
+    // Переносим цифры в начало слова
+    for (i = 0; i < len; i++) {
+        if (isdigit(word[i])) {
+            tmp[j++] = word[i];
         }
     }
-    s[j] = '\0';
 
-    // Удаление пробела в начале строки
-    if (j > 0 && s[0] == ' ') {
-        // Сдвигаем все символы влево на одну позицию
-        for (i = 0; s[i]; i++) {
-            s[i] = s[i + 1];
+    // Переносим буквы в конец слова
+    for (i = 0; i < len; i++) {
+        if (isalpha(word[i])) {
+            tmp[j++] = word[i];
         }
+    }
+
+    tmp[j] = '\0';
+
+    // Копируем измененное слово обратно в исходную строку
+    for (i = 0; i < len; i++) {
+        word[i] = tmp[i];
+    }
+}
+
+void rearrangeString(char *s) {
+    char *start = s;
+
+    while (*s) {
+        if (isalnum(*s)) {
+            s++;
+        } else {
+            if (s > start) {
+                rearrangeWord(start);
+            }
+            s++;
+            start = s;
+        }
+    }
+
+    if (s > start) {
+        rearrangeWord(start);
     }
 }
 
 int main() {
-    char sentence[100];
+    char sentence[] = "Th1s is a 2T3E5S7T s9en11tenc13e";
 
-    printf("Enter a sentence with extra spaces: ");
-    fgets(sentence, sizeof(sentence), stdin);
+    printf("The original sentence %s\n", sentence);
 
-    removeExtraSpaces(sentence);
+    rearrangeString(sentence);
 
-    printf("Sentence with single spaces between words: %s\n", sentence);
+    printf("New sentence: %s\n", sentence);
 
     return 0;
 }
