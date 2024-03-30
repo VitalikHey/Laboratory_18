@@ -25,3 +25,21 @@ void removeExtraSpaces(char *s) {
         }
     }
 }
+
+void replaceDigitsWithSpaces(char *input, char *output) {
+    int i = 0, j = 0;
+
+    while (input[i] != '\0') {
+        if (isdigit(input[i])) {
+            int numSpaces = input[i] - '0'; // Получаем количество пробелов из цифры
+            for (int k = 0; k < numSpaces && j < MAX_STRING_SIZE-1; k++) {
+                output[j++] = ' '; // Заменяем цифру соответствующим числом пробелов
+            }
+        } else if (j < MAX_STRING_SIZE-1) {
+            output[j++] = input[i]; // Копируем символ, если это не цифра
+        }
+        i++;
+    }
+
+    output[j] = '\0'; // Добавляем завершающий нулевой символ
+}
