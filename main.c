@@ -1,76 +1,39 @@
 #include <stdio.h>
+#include <string.h>
 #include <ctype.h>
-#include <stdbool.h>
 
-void rearrangeWord(char *word) {
-    int len = 0;
-    int numCount = 0, letterCount = 0;
-    bool isNum = false;
+#define MAX_STRING_SIZE 100
 
-    // Подсчитываем количество цифр и букв в слове
-    while (word[len]) {
-        if (isdigit(word[len])) {
-            numCount++;
-        } else if (isalpha(word[len])) {
-            letterCount++;
-        }
-        len++;
-    }
-
-    char tmp[len];
+void replaceDigitsWithSpaces(char *input, char *output) {
     int i = 0, j = 0;
 
-    // Переносим цифры в начало слова
-    for (i = 0; i < len; i++) {
-        if (isdigit(word[i])) {
-            tmp[j++] = word[i];
-        }
-    }
-
-    // Переносим буквы в конец слова
-    for (i = 0; i < len; i++) {
-        if (isalpha(word[i])) {
-            tmp[j++] = word[i];
-        }
-    }
-
-    tmp[j] = '\0';
-
-    // Копируем измененное слово обратно в исходную строку
-    for (i = 0; i < len; i++) {
-        word[i] = tmp[i];
-    }
-}
-
-void rearrangeString(char *s) {
-    char *start = s;
-
-    while (*s) {
-        if (isalnum(*s)) {
-            s++;
-        } else {
-            if (s > start) {
-                rearrangeWord(start);
+    while (input[i] != '\0') {
+        if (isdigit(input[i])) {
+            int numSpaces = input[i] - '0'; // Получаем количество пробелов из цифры
+            for (int k = 0; k < numSpaces && j < MAX_STRING_SIZE-1; k++) {
+                output[j++] = ' '; // Заменяем цифру соответствующим числом пробелов
             }
-            s++;
-            start = s;
+        } else if (j < MAX_STRING_SIZE-1) {
+            output[j++] = input[i]; // Копируем символ, если это не цифра
         }
+        i++;
     }
 
-    if (s > start) {
-        rearrangeWord(start);
-    }
+    output[j] = '\0'; // Добавляем завершающий нулевой символ
 }
 
 int main() {
-    char sentence[] = "Th1s is a 2T3E5S7T s9en11tenc13e";
+    char originalString[MAX_STRING_SIZE] = "H3ll0 W0rld!";
 
-    printf("The original sentence %s\n", sentence);
+    char buffer[MAX_STRING_SIZE];
+    char resultString[MAX_STRING_SIZE];
 
-    rearrangeString(sentence);
+    strncpy(buffer, originalString, MAX_STRING_SIZE);
 
-    printf("New sentence: %s\n", sentence);
+    replaceDigitsWithSpaces(buffer, resultString);
+
+    printf("first string: %s\n", originalString);
+    printf("second string: %s\n", resultString);
 
     return 0;
 }
-
