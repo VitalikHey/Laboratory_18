@@ -1,33 +1,8 @@
 #include <stdio.h>
+#include <string.h>
 #include <ctype.h>
-#include "tasks.h"
 
 #define MAX_STRING_SIZE 100
-
-void removeExtraSpaces(char *s) {
-    int i, j;
-    int space = 0;
-    for (i = 0, j = 0; s[i]; i++) {
-        if (s[i] != ' ') {
-            s[j++] = s[i];
-            space = 0;
-        } else {
-            if (!space && j > 0) {
-                s[j++] = ' ';
-                space = 1;
-            }
-        }
-    }
-    s[j] = '\0';
-
-    // Удаление пробела в начале строки
-    if (j > 0 && s[0] == ' ') {
-        // Сдвигаем все символы влево на одну позицию
-        for (i = 0; s[i]; i++) {
-            s[i] = s[i + 1];
-        }
-    }
-}
 
 void replaceDigitsWithSpaces(char *input, char *output) {
     int i = 0, j = 0;
@@ -45,4 +20,20 @@ void replaceDigitsWithSpaces(char *input, char *output) {
     }
 
     output[j] = '\0'; // Добавляем завершающий нулевой символ
+}
+
+int main() {
+    char originalString[MAX_STRING_SIZE] = "H3ll0 W0rld!";
+
+    char buffer[MAX_STRING_SIZE];
+    char resultString[MAX_STRING_SIZE];
+
+    strncpy(buffer, originalString, MAX_STRING_SIZE);
+
+    replaceDigitsWithSpaces(buffer, resultString);
+
+    printf("first string: %s\n", originalString);
+    printf("second string: %s\n", resultString);
+
+    return 0;
 }
