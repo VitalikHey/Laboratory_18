@@ -4,36 +4,41 @@
 
 #define MAX_STRING_SIZE 100
 
-void replaceDigitsWithSpaces(char *input, char *output) {
-    int i = 0, j = 0;
+void replace(char *source, char *w1, char *w2) {
+    size_t w1Size = strlen(w1);
+    size_t w2Size = strlen(w2);
 
-    while (input[i] != '\0') {
-        if (isdigit(input[i])) {
-            int numSpaces = input[i] - '0'; // Получаем количество пробелов из цифры
-            for (int k = 0; k < numSpaces && j < MAX_STRING_SIZE-1; k++) {
-                output[j++] = ' '; // Заменяем цифру соответствующим числом пробелов
+    char result[MAX_STRING_SIZE];
+    char *resPtr = result;
+    char *srcPtr = source;
+    while (*srcPtr) {
+        if (strncmp(srcPtr, w1, w1Size) == 0 && (srcPtr == source || !isalnum(*(srcPtr - 1))) &&
+            (*(srcPtr + w1Size) == '\0' || !isalnum(*(srcPtr + w1Size)))) {
+            for (size_t i = 0; i < w2Size; i++) {
+                *resPtr = w2[i];
+                resPtr++;
             }
-        } else if (j < MAX_STRING_SIZE-1) {
-            output[j++] = input[i]; // Копируем символ, если это не цифра
+            srcPtr += w1Size;
+        } else {
+            *resPtr = *srcPtr;
+            resPtr++;
+            srcPtr++;
         }
-        i++;
     }
+    *resPtr = '\0';
 
-    output[j] = '\0'; // Добавляем завершающий нулевой символ
+    strcpy(source, result);
 }
 
 int main() {
-    char originalString[MAX_STRING_SIZE] = "H3ll0 W0rld!";
+    char source[MAX_STRING_SIZE] = "This is an example with word1 and word1 again.";
 
-    char buffer[MAX_STRING_SIZE];
-    char resultString[MAX_STRING_SIZE];
+    char w1[] = "word1";
+    char w2[] = "word2";
 
-    strncpy(buffer, originalString, MAX_STRING_SIZE);
+    replace(source, w1, w2);
 
-    replaceDigitsWithSpaces(buffer, resultString);
-
-    printf("first string: %s\n", originalString);
-    printf("second string: %s\n", resultString);
+    printf("Original string %s\n", source);
 
     return 0;
 }

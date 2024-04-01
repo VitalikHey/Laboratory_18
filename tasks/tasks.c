@@ -1,5 +1,8 @@
 #include <stdio.h>
+#include <ctype.h>
 #include "tasks.h"
+
+#define MAX_STRING_SIZE 100
 
 void removeExtraSpaces(char *s) {
     int i, j;
