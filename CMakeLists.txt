@@ -15,4 +15,14 @@ add_executable(Laboratory_18
         tasks/task7.c
         tasks/task8.c
         tasks/task9.c
+        tasks/task10.c
+        tasks/task11.c
+        tasks/task12.c
+        tasks/task13.c
+        tasks/task15.c
+        tasks/task16.c
+        tasks/task17.c
+        tasks/task18.c
+        tasks/task19.c
+        tasks/task14.c
 )
